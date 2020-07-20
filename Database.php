@@ -1,6 +1,6 @@
 <?php
     class Database
-    {
+    {        
         public static function connect($host='localhost', $username='root', $password='14921400', $dbName='bookmark')
         {
             $mysqli = new mysqli($host, $username, $password, $dbName); // Check connection
