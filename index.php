@@ -4,9 +4,10 @@
     include ('validator/Validator.php');
     Database::connect();
     //, 'email' => 'saad@gmail.com'
-    $data = ['username' => '', 'password' => 'pass'];
+    $data = ['username' => 'saaaad', 'password' => 'pass', 'email' => 'mmm@yahoo.com'];
     $rules = [
-    'username' => ['required', 'minLen' => 6,'maxLen' => 150, 'unique' => 'users'],
+    'email' => ['required', 'email'],
+    'username' => ['required', 'maxLen' => 3],
     'password' => ['required', 'minLen' => 8],
     ];
     //'email'    => ['required', 'email', 'unique' => 'users']
@@ -14,11 +15,9 @@
     //echo "hello";
     $v = new Validator;
     $v->validate($data, $rules);
-    
     if($v->fail())
     {
-        echo "fail";
-        //print_r($v->error);
+        print_r($v->_errors);
     }
     else 
         echo "validation success";

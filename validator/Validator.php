@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include '../Database.php';
+//include '../Database.php';
 
 class Validator
 {
@@ -18,8 +18,11 @@ class Validator
            // echo "hi";
             if(key_exists($item, $rules))
             {          
+                $continue = true;
                 foreach($rules[$item] as $rule => $rule_value)    
                 {
+                    if(!$continue) break;       //to stop validation if required failed
+
                     if(is_int($rule))      
                         $rule = $rule_value;
                     
@@ -29,29 +32,28 @@ class Validator
                             if(empty($item_value))
                             {
                                 $this->addError($item, $item. ' required');
-                                // if(empty($_errors)) echo "enter <br>";
-                                // else echo ("not empty <br>");
+                                $continue = false;
                             }
                         break;
 
                         case 'minLen':
                             if(strlen($item_value) < $rule_value)
-                              //  $this->addError($item, $item. ' should be minimum '. $rule_value. 'characters');
+                                $this->addError($item, $item. ' should be minimum '. $rule_value. ' characters');
                         break;
 
                         case 'maxLen':
-                            if(strlen($item_value > $rule_value))
-                              //  $this->addError($item, $item. ' should be maximum '. $rule_value. 'characters');
+                            if(strlen($item_value) > $rule_value) 
+                                $this->addError($item, $item. ' should be maximum '. $rule_value. ' characters');
                         break;
 
                         case 'email':
-                          //  if(!validEmail($item_value))
-                               // $this->addError($item, $item. ' is not valid');                           
+                            if(!$this->validEmail($item_value))
+                                $this->addError($item, $item. ' is not valid');                           
                         break;
 
                         case 'unique':
-                        //    if(checkDuplication($item, $item_value, $rule_value))   //rule_value here is the name of the table in which duplication is being checked.
-                               // $this->addError($item, $item. 'is not unique');
+                            if($this->checkDuplication($item, $item_value, $rule_value))   //rule_value here is the name of the table in which duplication is being checked.
+                                $this->addError($item, $item. 'is not unique');
                         break;
                     }
                 }
@@ -62,7 +64,7 @@ class Validator
     
   
 
-    private function validEmail($email)
+    private function validEmail($item_value)
     {   
         // Remove all illegal characters from email
         $email = filter_var($item_value, FILTER_SANITIZE_EMAIL);
@@ -93,23 +95,13 @@ class Validator
     
     public function fail()
     {
-        if(empty($_errors)) 
-        {
-            //echo "emty <br>";
-            return false;
-        }
-        else 
-        {
-          //  echo "not <br>";
-            return true;
-        }
-        //return _errors;
+        if(empty($this->_errors)) return false;
+        return true;
     }
 
     private function addError($item, $errMessage)
     {
-        $_errors[$item][] = $errMessage;
-        //echo ($_errors[$item][0]. "<br>");
+        $this->_errors[$item][] = $errMessage;
     }   
       
 }
