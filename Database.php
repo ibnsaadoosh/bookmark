@@ -8,7 +8,7 @@ class Database
         );
 
         try {
-            $link = new PDO("mysql:host=$host;dbname=$dbName", $username, $password, $options); // Possible error
+            $link = new PDO("mysql:host=$host;dbname=$dbName", $username, $password, $options);
             $link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             echo "Failed to connect " . $e->getMessage();

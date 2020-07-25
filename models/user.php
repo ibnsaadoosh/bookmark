@@ -66,8 +66,6 @@ class User
 
         $updateStr = substr($updateStr, 0, strlen($updateStr) - 2);
 
-        // echo $updateStr;
-
         $con = Database::connect();
         $query = "UPDATE users SET $updateStr WHERE id = ?";
         $stmt = $con->prepare($query);
