@@ -51,10 +51,10 @@ class Validator
                                 $this->addError($item, $item. ' is not valid');                           
                         break;
 
-                        case 'unique':
-                            if($this->checkDuplication($item, $item_value, $rule_value))   //rule_value here is the name of the table in which duplication is being checked.
-                                $this->addError($item, $item. 'is not unique');
-                        break;
+                        // case 'unique':
+                        //     if($this->checkDuplication($item, $item_value, $rule_value))   //rule_value here is the name of the table in which duplication is being checked.
+                        //         $this->addError($item, $item. 'is not unique');
+                        // break;
                     }
                 }
             }
@@ -85,13 +85,13 @@ class Validator
         return true;
     }
 
-    private function checkDuplication($item, $item_value, $table)
-    {
-        $con = Database::connect();
-        $duplicate = mysqli_query($con, "select * from '$table' where '$item' = '$item_value'");
-        if (mysqli_num_rows($duplicate) > 0)
-            return false;
-    }
+    // private function checkDuplication($item, $item_value, $table)
+    // {
+    //     $con = Database::connect();
+    //     $duplicate = mysqli_query($con, "select * from '$table' where '$item' = '$item_value'");
+    //     if (mysqli_num_rows($duplicate) > 0)
+    //         return false;
+    // }
     
     public function fail()
     {
@@ -105,5 +105,3 @@ class Validator
     }   
       
 }
-
-?>
