@@ -10,28 +10,27 @@
                 exit(); 
             } 
         }
-        public static function save($tableName, $attributes, $values)
-        {
-            $con = self::connect();     
-            $tmpAttributes = "";
-            for($i = 0 ; $i < sizeof($attributes) ; $i++)
-            {
-                $tmpAttributes += $attributes[i];
-                if($i < sizeof($attributes) - 1)
-                    $tmpAttributes += ',';
-            }
+        // public static function save($tableName, $attributes, $values)
+        // {
+        //     $con = self::connect();     
+        //     $tmpAttributes = "";
+        //     for($i = 0 ; $i < sizeof($attributes) ; $i++)
+        //     {
+        //         $tmpAttributes += $attributes[i];
+        //         if($i < sizeof($attributes) - 1)
+        //             $tmpAttributes += ',';
+        //     }
 
-            $tmpValues = "";
-            for($i = 0 ; $i < sizeof($tmpValues) ; $i++)
-            {
-                $tmpValues += $values[i];
-                if($i < sizeof($values) - 1)
-                    $tmpValues += ',';
-            }
+        //     $tmpValues = "";
+        //     for($i = 0 ; $i < sizeof($tmpValues) ; $i++)
+        //     {
+        //         $tmpValues += $values[i];
+        //         if($i < sizeof($values) - 1)
+        //             $tmpValues += ',';
+        //     }
             
-            $sql = "INSERT INTO $tableName($tmpAttributes) VALUES ($tmpValues)";
-            mysqli_query($con, $sql);            
-        }
+        //     $sql = "INSERT INTO $tableName($tmpAttributes) VALUES ($tmpValues)";
+        //     mysqli_query($con, $sql);            
+        // }
        
     }
-?>
