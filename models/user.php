@@ -103,4 +103,14 @@ class User
 
         return false;
     }
+
+    public function checkDublication($where)
+    {
+        $con = Database::connect();
+        $query = "SELECT id FROM users WHERE $where";
+        $stmt = $con->prepare($query);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
+    }
 }
