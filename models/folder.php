@@ -22,6 +22,22 @@ class Folder
         $this->id = $id;
     }
 
+    public function get($select, $where = '', $whereValue = '')
+    {
+        $con = Database::connect();
+        if (empty($where)) {
+            $query = "SELECT $select FROM folders";
+            $stmt = $con->prepare($query);
+            $stmt->execute();
+        } else {
+            $query = "SELECT $select FROM folders WHERE $where = ?";
+            $stmt = $con->prepare($query);
+            $stmt->execute(array($whereValue));
+        }
+
+        return $stmt;
+    }
+
     public function save()
     {
         $con = Database::connect();
