@@ -1,6 +1,6 @@
 <?php
 
-include "database.php";
+include "Database.php";
 
 class User
 {
@@ -37,6 +37,22 @@ class User
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
         );
+    }
+
+    public function get($select, $where = '', $whereValue = '')
+    {
+        $con = Database::connect();
+        if (empty($where)) {
+            $query = "SELECT $select FROM users";
+            $stmt = $con->prepare($query);
+            $stmt->execute();
+        } else {
+            $query = "SELECT $select FROM users WHERE $where = ?";
+            $stmt = $con->prepare($query);
+            $stmt->execute(array($whereValue));
+        }
+
+        return $stmt;
     }
 
     public function save()
