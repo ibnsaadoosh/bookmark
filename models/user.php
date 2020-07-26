@@ -28,6 +28,17 @@ class User
         $this->id = $id;
     }
 
+    public function getAttributes()
+    {
+        return array(
+            'username' => $this->username,
+            'password' => $this->password,
+            'email' => $this->email,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+        );
+    }
+
     public function save()
     {
         $con = Database::connect();
