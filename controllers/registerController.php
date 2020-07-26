@@ -43,12 +43,6 @@ class RegisterController
             $data['ip']
         );
 
-        if ($userObj->save()) {
-            session_start();
-            $_SESSION['email'] = $data['email'];
-            return true;
-        } else {
-            return false;
-        }
+        return $userObj->save();
     }
 }
