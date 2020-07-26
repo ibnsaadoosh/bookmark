@@ -31,11 +31,13 @@ class User
     public function getAttributes()
     {
         return array(
+            'id' => $this->id,
             'username' => $this->username,
             'password' => $this->password,
             'email' => $this->email,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
+            'ip' => $this->ip,
         );
     }
 

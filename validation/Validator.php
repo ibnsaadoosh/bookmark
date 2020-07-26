@@ -13,59 +13,53 @@ class Validator
     public function validate($data, $rules = [])
     {
         //echo "hi";
-        foreach($data as $item => $item_value)
-        {
-           // echo "hi";
-            if(key_exists($item, $rules))
-            {          
+        foreach ($data as $item => $item_value) {
+            // echo "hi";
+            if (key_exists($item, $rules)) {
                 $continue = true;
-                foreach($rules[$item] as $rule => $rule_value)    
-                {
-                    if(!$continue) break;       //to stop validation if required failed
+                foreach ($rules[$item] as $rule => $rule_value) {
+                    if (!$continue) break;       //to stop validation if required failed
 
-                    if(is_int($rule))      
+                    if (is_int($rule))
                         $rule = $rule_value;
-                    
-                    switch($rule)
-                    {
+
+                    switch ($rule) {
                         case 'required':
-                            if(empty($item_value))
-                            {
-                                $this->addError($item, $item. ' required');
+                            if (empty($item_value)) {
+                                $this->addError($item, $item . ' required');
                                 $continue = false;
                             }
-                        break;
+                            break;
 
                         case 'minLen':
-                            if(strlen($item_value) < $rule_value)
-                                $this->addError($item, $item. ' should be minimum '. $rule_value. ' characters');
-                        break;
+                            if (strlen($item_value) < $rule_value)
+                                $this->addError($item, $item . ' should be minimum ' . $rule_value . ' characters');
+                            break;
 
                         case 'maxLen':
-                            if(strlen($item_value) > $rule_value) 
-                                $this->addError($item, $item. ' should be maximum '. $rule_value. ' characters');
-                        break;
+                            if (strlen($item_value) > $rule_value)
+                                $this->addError($item, $item . ' should be maximum ' . $rule_value . ' characters');
+                            break;
 
                         case 'email':
-                            if(!$this->validEmail($item_value))
-                                $this->addError($item, $item. ' is not valid');                           
-                        break;
+                            if (!$this->validEmail($item_value))
+                                $this->addError($item, $item . ' is not valid');
+                            break;
 
-                        // case 'unique':
-                        //     if($this->checkDuplication($item, $item_value, $rule_value))   //rule_value here is the name of the table in which duplication is being checked.
-                        //         $this->addError($item, $item. 'is not unique');
-                        // break;
+                            // case 'unique':
+                            //     if($this->checkDuplication($item, $item_value, $rule_value))   //rule_value here is the name of the table in which duplication is being checked.
+                            //         $this->addError($item, $item. 'is not unique');
+                            // break;
                     }
                 }
             }
-            
         }
     }
-    
-  
+
+
 
     private function validEmail($item_value)
-    {   
+    {
         // Remove all illegal characters from email
         $email = filter_var($item_value, FILTER_SANITIZE_EMAIL);
 
@@ -73,12 +67,11 @@ class Validator
         $domain = substr($email, strpos($email, '@') + 1);
 
         //check whether the domain defines an MX record
-        if(!checkdnsrr($domain, 'MX'))
+        if (!checkdnsrr($domain, 'MX'))
             return false;
 
         //check email format
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-        {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return false;
         }
 
@@ -92,16 +85,15 @@ class Validator
     //     if (mysqli_num_rows($duplicate) > 0)
     //         return false;
     // }
-    
+
     public function fail()
     {
-        if(empty($this->_errors)) return false;
+        if (empty($this->_errors)) return false;
         return true;
     }
 
     private function addError($item, $errMessage)
     {
         $this->_errors[$item][] = $errMessage;
-    }   
-      
+    }
 }
