@@ -15,7 +15,7 @@ class User
     private $active;
     private $ip;
 
-    public function set($id = null, $username, $password, $firstName, $lastName, $email, $image, $token, $active, $ip = null)
+    public function set($id = null, $username, $password, $firstName, $lastName, $email, $image, $token = null, $active = null, $ip = null)
     {
         $this->id = $id;
         $this->username = $username;
