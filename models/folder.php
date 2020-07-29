@@ -8,13 +8,15 @@ class Folder
     private $title;
     private $comment_section;
     private $parent;
+    private $user_id;
 
-    public function set($id = null, $title, $comment_section, $parent = 0)
+    public function set($id = null, $title, $comment_section, $parent = 0, $user_id)
     {
         $this->id = $id;
         $this->title = $title;
         $this->comment_section = $comment_section;
         $this->parent = $parent;
+        $this->user_id = $user_id;
     }
 
     public function setId($id)
@@ -22,7 +24,7 @@ class Folder
         $this->id = $id;
     }
 
-    public function get($select, $where = '', $whereValue = '')
+    public static function get($select, $where = '', $whereValue = '')
     {
         $con = Database::connect();
         if (empty($where)) {
@@ -42,11 +44,11 @@ class Folder
     {
         $con = Database::connect();
         $query = "INSERT INTO 
-                    folders(title, comment_section, parent)
-                    VALUES(?, ?, ?)";
+                    folders(title, comment_section, parent, user_id)
+                    VALUES(?, ?, ?, ?)";
         $stmt = $con->prepare($query);
 
-        if ($stmt->execute(array($this->title, $this->comment_section, $this->parent))) {
+        if ($stmt->execute(array($this->title, $this->comment_section, $this->parent, $this->user_id))) {
             return true;
         }
 
