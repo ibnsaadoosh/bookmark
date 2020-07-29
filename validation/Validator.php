@@ -32,12 +32,12 @@ class Validator
                             break;
 
                         case 'minLen':
-                            if (strlen($item_value) < $rule_value)
+                            if (strlen($item_value) < $rule_value && !empty($item_value))
                                 $this->addError($item, $item . ' should be minimum ' . $rule_value . ' characters');
                             break;
 
                         case 'maxLen':
-                            if (strlen($item_value) > $rule_value)
+                            if (strlen($item_value) > $rule_value && !empty($item_value))
                                 $this->addError($item, $item . ' should be maximum ' . $rule_value . ' characters');
                             break;
 
