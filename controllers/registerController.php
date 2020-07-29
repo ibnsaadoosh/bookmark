@@ -33,6 +33,11 @@ class RegisterController
             return array('username' => 'This username used before');
         }
 
+        $avatar = rand(0, 10000000000) . '_' . $data['image']['name'];
+        move_uploaded_file($data['image']['tmp_name'], "uploads\images\avatars\\" . $avatar);
+
+        $data['token'] = bin2hex(random_bytes(20));
+
         $userObj->set(
             null,
             $data['username'],
@@ -40,6 +45,9 @@ class RegisterController
             $data['firstName'],
             $data['lastName'],
             $data['email'],
+            $avatar,
+            $data['token'],
+            $data['active'],
             $data['ip']
         );
 
