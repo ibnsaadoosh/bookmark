@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 26, 2020 at 05:18 PM
+-- Generation Time: Jul 29, 2020 at 09:33 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.4.7
 
@@ -33,7 +33,8 @@ CREATE TABLE `folders` (
   `parent` int(11) NOT NULL DEFAULT 0 COMMENT 'If parent = 0 so no parent to it',
   `title` varchar(30) NOT NULL,
   `comment_section` text DEFAULT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp()
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -48,15 +49,9 @@ CREATE TABLE `sites` (
   `link` varchar(255) NOT NULL,
   `title` varchar(30) NOT NULL,
   `comment_section` text DEFAULT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp()
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `sites`
---
-
-INSERT INTO `sites` (`id`, `parent`, `link`, `title`, `comment_section`, `date`) VALUES
-(4, 0, 'google.com', 'test', 'This is test comment', '2020-07-25 13:19:14');
 
 -- --------------------------------------------------------
 
@@ -71,6 +66,9 @@ CREATE TABLE `users` (
   `username` varchar(20) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL,
+  `image` varchar(255) DEFAULT 'default_avatar.jpg' COMMENT 'Avatar of the user',
+  `token` varchar(255) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 0,
   `date` timestamp NOT NULL DEFAULT current_timestamp(),
   `ip` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -79,10 +77,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `firstName`, `lastName`, `username`, `password`, `email`, `date`, `ip`) VALUES
-(3, 'Abdulaziz', 'Sayed', 'Saadoush', '123456', 'zero@gmail.com', '2020-07-25 12:44:40', NULL),
-(4, 'Mohammed', 'Saad', 'Saadoush', '123456', 'saadoush@gmail.com', '2020-07-26 13:38:04', NULL),
-(5, 'testt', 'testt', 'zozozoss555zoz', 'testttttttttt5555', 'test@saad.com', '2020-07-26 15:06:49', NULL);
+INSERT INTO `users` (`id`, `firstName`, `lastName`, `username`, `password`, `email`, `image`, `token`, `active`, `date`, `ip`) VALUES
+(3, 'Abdulaziz', 'Sayed', 'Saadoush', '123456', 'zero@gmail.com', 'default_avatar.jpg', '', 0, '2020-07-25 12:44:40', NULL),
+(4, 'Mohammed', 'Saad', 'Saadoush', '123456', 'saadoush@gmail.com', 'default_avatar.jpg', '', 0, '2020-07-26 13:38:04', NULL),
+(5, 'testt', 'testt', 'zozozoss555zoz', 'testttttttttt5555', 'test@saad.com', 'default_avatar.jpg', '', 0, '2020-07-26 15:06:49', NULL),
+(7, 'asdfadfasdfa', 'asdfadfasdfsdf', 'Khaled550', '$2y$10$UNmfIS0XDG5UITU4tyuf2..xBu/Oh.tFV0xC1X63mFLM5ERJy1zE.', 'test@gmail.com', 'default_avatar.jpg', '', 0, '2020-07-26 15:31:46', NULL);
 
 --
 -- Indexes for dumped tables
@@ -92,13 +91,15 @@ INSERT INTO `users` (`id`, `firstName`, `lastName`, `username`, `password`, `ema
 -- Indexes for table `folders`
 --
 ALTER TABLE `folders`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_users_id_folders` (`user_id`);
 
 --
 -- Indexes for table `sites`
 --
 ALTER TABLE `sites`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_users_id` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -126,7 +127,23 @@ ALTER TABLE `sites`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `folders`
+--
+ALTER TABLE `folders`
+  ADD CONSTRAINT `fk_users_id_folders` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `sites`
+--
+ALTER TABLE `sites`
+  ADD CONSTRAINT `fk_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
