@@ -10,9 +10,12 @@ class User
     private $firstName;
     private $lastName;
     private $email;
+    private $image;
+    private $token;
+    private $active;
     private $ip;
 
-    public function set($id = null, $username, $password, $firstName, $lastName, $email, $ip = null)
+    public function set($id = null, $username, $password, $firstName, $lastName, $email, $image, $token, $active, $ip = null)
     {
         $this->id = $id;
         $this->username = $username;
@@ -20,6 +23,9 @@ class User
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;
+        $this->image = $image;
+        $this->token = $token;
+        $this->active = $active;
         $this->ip = $ip;
     }
 
@@ -35,13 +41,16 @@ class User
             'username' => $this->username,
             'password' => $this->password,
             'email' => $this->email,
+            'image' => $this->image,
+            'token' => $this->token,
+            'active' => $this->active,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'ip' => $this->ip,
         );
     }
 
-    public function get($select, $where = '', $whereValue = '')
+    public static function get($select, $where = '', $whereValue = '')
     {
         $con = Database::connect();
         if (empty($where)) {
@@ -61,31 +70,31 @@ class User
     {
         $con = Database::connect();
         $query = "INSERT INTO 
-                    users(username, password, firstName, lastName, email, ip)
-                    VALUES(?, ?, ?, ?, ?, ?)";
+                    users(username, password, firstName, lastName, email, image, token, active, ip)
+                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $con->prepare($query);
 
-        if ($stmt->execute(array($this->username, $this->password, $this->firstName, $this->lastName, $this->email, $this->ip))) {
+        if ($stmt->execute(array($this->username, $this->password, $this->firstName, $this->lastName, $this->email, $this->image, $this->token, $this->active, $this->ip))) {
             return true;
         }
 
         return false;
     }
 
-    public function delete()
+    public static function delete($where, $whereValue)
     {
         $con = Database::connect();
-        $query = "DELETE FROM users WHERE id = ?";
+        $query = "DELETE FROM users WHERE $where = ?";
         $stmt = $con->prepare($query);
 
-        if ($stmt->execute(array($this->id))) {
+        if ($stmt->execute(array($whereValue))) {
             return true;
         }
 
         return false;
     }
 
-    public function update($assocArr)
+    public static function update($assocArr, $where, $whereValue)
     {
         $updateStr = '';
 
@@ -96,17 +105,17 @@ class User
         $updateStr = substr($updateStr, 0, strlen($updateStr) - 2);
 
         $con = Database::connect();
-        $query = "UPDATE users SET $updateStr WHERE id = ?";
+        $query = "UPDATE users SET $updateStr WHERE $where = ?";
         $stmt = $con->prepare($query);
 
-        if ($stmt->execute(array($this->id))) {
+        if ($stmt->execute(array($whereValue))) {
             return true;
         }
 
         return false;
     }
 
-    public function checkDublication($where)
+    public static function checkDublication($where)
     {
         $con = Database::connect();
         $query = "SELECT id FROM users WHERE $where";
