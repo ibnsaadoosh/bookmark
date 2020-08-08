@@ -19,6 +19,7 @@ class RegisterController
         $data['password'] = filter_var($data['password'], FILTER_SANITIZE_STRING);
         $data['firstName'] = filter_var($data['firstName'], FILTER_SANITIZE_STRING);
         $data['lastName'] = filter_var($data['lastName'], FILTER_SANITIZE_STRING);
+        $data['email'] = filter_var($data['email'], FILTER_SANITIZE_EMAIL);
 
         $validator = new Validator();
         $validator->validate($data, $validatoinRules);
@@ -56,6 +57,12 @@ class RegisterController
 
     public function registerWithGoogle($userObj)
     {
+        $data = $userObj->getAttributes();
+
+        if (User::checkDublication("email = '" . $data['email'] . "'")) {
+            return array('email' => 'This email used before');
+        }
+
         return $userObj->save();
     }
 }
