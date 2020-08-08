@@ -65,9 +65,8 @@ class Validator
 
     private function validEmail($item_value)
     {
-        // Remove all illegal characters from email
-        $email = filter_var($item_value, FILTER_SANITIZE_EMAIL);
 
+        $email = $item_value;
         //Extract domain name from email address
         $domain = substr($email, strpos($email, '@') + 1);
 
