@@ -66,20 +66,20 @@ class Folder
         return false;
     }
 
-    public function delete()
+    public static function delete($where, $whereValue)
     {
         $con = Database::connect();
-        $query = "DELETE FROM folders WHERE id = ?";
+        $query = "DELETE FROM folders WHERE $where = ?";
         $stmt = $con->prepare($query);
 
-        if ($stmt->execute(array($this->id))) {
+        if ($stmt->execute(array($whereValue))) {
             return true;
         }
 
         return false;
     }
 
-    public function update($assocArr)
+    public static function update($assocArr, $where, $whereValue)
     {
         $updateStr = '';
 
@@ -90,10 +90,10 @@ class Folder
         $updateStr = substr($updateStr, 0, strlen($updateStr) - 2);
 
         $con = Database::connect();
-        $query = "UPDATE folders SET $updateStr WHERE id = ?";
+        $query = "UPDATE folders SET $updateStr WHERE $where = ?";
         $stmt = $con->prepare($query);
 
-        if ($stmt->execute(array($this->id))) {
+        if ($stmt->execute(array($whereValue))) {
             return true;
         }
 

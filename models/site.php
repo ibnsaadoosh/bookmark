@@ -69,20 +69,20 @@ class Site
         return false;
     }
 
-    public function delete()
+    public static function delete($where, $whereValue)
     {
         $con = Database::connect();
-        $query = "DELETE FROM sites WHERE id = ?";
+        $query = "DELETE FROM sites WHERE $where = ?";
         $stmt = $con->prepare($query);
 
-        if ($stmt->execute(array($this->id))) {
+        if ($stmt->execute(array($whereValue))) {
             return true;
         }
 
         return false;
     }
 
-    public function update($assocArr)
+    public static function update($assocArr, $where, $whereValue)
     {
         $updateStr = '';
 
@@ -93,10 +93,10 @@ class Site
         $updateStr = substr($updateStr, 0, strlen($updateStr) - 2);
 
         $con = Database::connect();
-        $query = "UPDATE sites SET $updateStr WHERE id = ?";
+        $query = "UPDATE sites SET $updateStr WHERE $where = ?";
         $stmt = $con->prepare($query);
 
-        if ($stmt->execute(array($this->id))) {
+        if ($stmt->execute(array($whereValue))) {
             return true;
         }
 

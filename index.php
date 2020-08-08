@@ -1,24 +1,19 @@
 <?php
 
-require_once "validation/Validator.php";
+include "controllers/UserController.php";
 
-$data = [
-    "username" => "",
+$newData = [
+    'id' => 4,
+    'username' => 'newUsername',
+    'firstName' => 'newFirstName'
 ];
 
-$rules = [
-    "username" => [
-        "minLen" => 6, "maxLen" => 50
-    ],
-];
-
-$validator = new Validator();
-$validator->validate($data, $rules);
-
-if ($validator->fail()) {
-    echo "<pre>";
-    print_r($validator->_errors);
-    echo "</pre>";
+$userController = new UserController();
+$res = $userController->update($newData);
+if ($res == true) {
+    echo "Updated successfully";
 } else {
-    echo "Validated successfully";
+    echo "<pre>";
+    print_r($res);
+    echo "</pre>";
 }
