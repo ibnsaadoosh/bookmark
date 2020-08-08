@@ -1,10 +1,11 @@
 <?php
 
 include "validation/Validator.php";
+include "models/User.php";
 
 class SiteController
 {
-    public static function add($siteObj)
+    public function add($siteObj)
     {
         $validatoinRules = array(
             'title' => ['required', 'minLen' => 2, 'maxLen' => 30],
@@ -33,5 +34,35 @@ class SiteController
         );
 
         return $siteObj->save();
+    }
+
+    public function update($updatedElements)
+    {
+        $validatoinRules = array(
+            'title' => ['required', 'minLen' => 2, 'maxLen' => 30],
+            'link' => ['required', 'link']
+        );
+
+        if (isset($updatedElements['title'])) {
+            $updatedElements['title'] = filter_var($updatedElements['title'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($updatedElements['link'])) {
+            $updatedElements['link'] = filter_var($updatedElements['link'], FILTER_SANITIZE_URL);
+        }
+        if (isset($updatedElements['comment_section'])) {
+            $updatedElements['comment_section'] = filter_var($updatedElements['comment_section'], FILTER_SANITIZE_STRING);
+        }
+
+        $validator = new Validator();
+        $validator->validate($updatedElements, $validatoinRules);
+
+        if ($validator->fail()) {
+            return $validator->_errors;
+        }
+
+        $id = $updatedElements['id'];
+        array_shift($updatedElements);
+
+        return Site::update($updatedElements, 'id', $id);
     }
 }

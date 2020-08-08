@@ -4,7 +4,7 @@ include "validation/Validator.php";
 
 class FolderController
 {
-    public static function add($folderObj)
+    public function add($folderObj)
     {
         $validatoinRules = array(
             'title' => ['required', 'minLen' => 2, 'maxLen' => 30]
@@ -30,5 +30,31 @@ class FolderController
         );
 
         return $folderObj->save();
+    }
+
+    public function update($updatedElements)
+    {
+        $validatoinRules = array(
+            'title' => ['required', 'minLen' => 2, 'maxLen' => 30]
+        );
+
+        if (isset($updatedElements['title'])) {
+            $updatedElements['title'] = filter_var($updatedElements['title'], FILTER_SANITIZE_STRING);
+        }
+        if (isset($updatedElements['comment_section'])) {
+            $updatedElements['comment_section'] = filter_var($updatedElements['comment_section'], FILTER_SANITIZE_STRING);
+        }
+
+        $validator = new Validator();
+        $validator->validate($updatedElements, $validatoinRules);
+
+        if ($validator->fail()) {
+            return $validator->_errors;
+        }
+
+        $id = $updatedElements['id'];
+        array_shift($updatedElements);
+
+        return Folder::update($updatedElements, 'id', $id);
     }
 }
