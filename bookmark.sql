@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 29, 2020 at 09:33 PM
+-- Generation Time: Aug 08, 2020 at 07:31 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.4.7
 
@@ -92,14 +92,16 @@ INSERT INTO `users` (`id`, `firstName`, `lastName`, `username`, `password`, `ema
 --
 ALTER TABLE `folders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_users_id_folders` (`user_id`);
+  ADD KEY `fk_users_id_folders` (`user_id`),
+  ADD KEY `fk_parent_folder2` (`parent`);
 
 --
 -- Indexes for table `sites`
 --
 ALTER TABLE `sites`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_users_id` (`user_id`);
+  ADD KEY `fk_users_id` (`user_id`),
+  ADD KEY `fk_parent_folder` (`parent`);
 
 --
 -- Indexes for table `users`
@@ -137,12 +139,14 @@ ALTER TABLE `users`
 -- Constraints for table `folders`
 --
 ALTER TABLE `folders`
+  ADD CONSTRAINT `fk_parent_folder2` FOREIGN KEY (`parent`) REFERENCES `folders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_users_id_folders` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sites`
 --
 ALTER TABLE `sites`
+  ADD CONSTRAINT `fk_parent_folder` FOREIGN KEY (`parent`) REFERENCES `folders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
