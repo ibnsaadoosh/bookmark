@@ -1,10 +1,5 @@
 <?php
 
-//Display errors
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 //include '../Database.php';
 
 class Validator
@@ -12,9 +7,7 @@ class Validator
     public $_errors = [];
     public function validate($data, $rules = [])
     {
-        //echo "hi";
         foreach ($data as $item => $item_value) {
-            // echo "hi";
             if (key_exists($item, $rules)) {
                 $continue = true;
                 foreach ($rules[$item] as $rule => $rule_value) {
@@ -44,6 +37,18 @@ class Validator
                         case 'email':
                             if (!$this->validEmail($item_value))
                                 $this->addError($item, $item . ' is not valid');
+                            break;
+
+                        case 'allowedExs':
+                            $explodedName = explode('.', $item_value['name']);
+                            $ex = strtolower(end($explodedName));
+                            if (!empty($item_value['name']) && !in_array($ex, $rule_value))
+                                $this->addError($item, "Image extension is not valid");
+                            break;
+
+                        case 'imgMaxSize':
+                            if ($item_value['size'] > $rule_value)
+                                $this->addError($item, "Image can't be larger than " . intval($rule_value / 1000000) . " MB");
                             break;
                     }
                 }
