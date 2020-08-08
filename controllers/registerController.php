@@ -27,9 +27,9 @@ class RegisterController
             return $validator->_errors;
         }
 
-        if ($userObj->checkDublication("email = '" . $data['email'] . "'")) {
+        if (User::checkDublication("email = '" . $data['email'] . "'")) {
             return array('email' => 'This email used before');
-        } else if ($userObj->checkDublication("username = '$" . $data['username'] . "'")) {
+        } else if (User::checkDublication("username = '" . $data['username'] . "'")) {
             return array('username' => 'This username used before');
         }
 
@@ -51,6 +51,11 @@ class RegisterController
             $data['ip']
         );
 
+        return $userObj->save();
+    }
+
+    public function registerWithGoogle($userObj)
+    {
         return $userObj->save();
     }
 }
