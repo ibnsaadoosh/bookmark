@@ -70,4 +70,9 @@ class SiteController
     {
         return Site::delete('id', $id);
     }
+
+    public function get($select, $where, $whereValue)
+    {
+        return Site::get($select, $where, $whereValue);
+    }
 }
