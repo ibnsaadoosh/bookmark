@@ -57,4 +57,9 @@ class FolderController
 
         return Folder::update($updatedElements, 'id', $id);
     }
+
+    public function delete($id)
+    {
+        return Folder::delete('id', $id);
+    }
 }

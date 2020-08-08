@@ -65,4 +65,9 @@ class SiteController
 
         return Site::update($updatedElements, 'id', $id);
     }
+
+    public function delete($id)
+    {
+        return Site::delete('id', $id);
+    }
 }
