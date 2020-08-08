@@ -50,6 +50,11 @@ class Validator
                             if ($item_value['size'] > $rule_value)
                                 $this->addError($item, "Image can't be larger than " . intval($rule_value / 1000000) . " MB");
                             break;
+
+                        case 'link':
+                            if (!filter_var($item_vlue, FILTER_VALIDATE_URL))
+                                $this->addError($item, $item . " not valid");
+                            break;
                     }
                 }
             }
