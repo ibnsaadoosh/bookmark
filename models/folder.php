@@ -24,6 +24,17 @@ class Folder
         $this->id = $id;
     }
 
+    public function getAttributes()
+    {
+        return array(
+            'id' => $this->id,
+            'title' => $this->title,
+            'comment_section' => $this->comment_section,
+            'parent' => $this->parent,
+            'user_id' => $this->user_id
+        );
+    }
+
     public static function get($select, $where = '', $whereValue = '')
     {
         $con = Database::connect();
