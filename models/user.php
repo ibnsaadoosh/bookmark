@@ -11,11 +11,9 @@ class User
     private $lastName;
     private $email;
     private $image;
-    private $token;
-    private $active;
     private $ip;
 
-    public function set($id = null, $username, $password, $firstName, $lastName, $email, $image, $token = null, $active = null, $ip = null)
+    public function set($id = null, $username, $password, $firstName, $lastName, $email, $image, $ip = null)
     {
         $this->id = $id;
         $this->username = $username;
@@ -24,8 +22,6 @@ class User
         $this->lastName = $lastName;
         $this->email = $email;
         $this->image = $image;
-        $this->token = $token;
-        $this->active = $active;
         $this->ip = $ip;
     }
 
@@ -42,8 +38,6 @@ class User
             'password' => $this->password,
             'email' => $this->email,
             'image' => $this->image,
-            'token' => $this->token,
-            'active' => $this->active,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'ip' => $this->ip,
@@ -70,11 +64,11 @@ class User
     {
         $con = Database::connect();
         $query = "INSERT INTO 
-                    users(username, password, firstName, lastName, email, image, token, active, ip)
-                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    users(username, password, firstName, lastName, email, image, ip)
+                    VALUES(?, ?, ?, ?, ?, ?, ?)";
         $stmt = $con->prepare($query);
 
-        if ($stmt->execute(array($this->username, $this->password, $this->firstName, $this->lastName, $this->email, $this->image, $this->token, $this->active, $this->ip))) {
+        if ($stmt->execute(array($this->username, $this->password, $this->firstName, $this->lastName, $this->email, $this->image, $this->ip))) {
             return true;
         }
 
