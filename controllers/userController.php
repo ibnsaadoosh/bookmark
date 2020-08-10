@@ -8,8 +8,8 @@ class UserController
     public function update($updatedElements)
     {
         $validatoinRules = array(
-            'username' => ['required', 'minLen' => 8, 'maxLen' => 20],
-            'password' => ['required', 'minLen' => 8, 'maxLen' => 50],
+            'username' => ['minLen' => 8, 'maxLen' => 20],
+            'password' => ['minLen' => 8, 'maxLen' => 50],
             'email' => ['required', 'email'],
             'firstName' => ['minLen' => 5, 'maxLen' => 30],
             'lastName' => ['minLen' => 5, 'maxLen' => 30]

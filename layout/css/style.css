@@ -1,0 +1,134 @@
+/* Start main rules */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding-top: 70px;
+}
+
+h1,h2,h3,h4,h5,.lead {font-family: 'Open Sans', sans-serif;}
+
+/* End main rules */
+/* Start sign up */
+
+/* start intro */
+.intro {
+    padding: 0 7%;
+}
+
+.intro .title {
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+.intro .info {
+    margin: 20px 0;
+}
+
+.intro .info i.fa-check-square-o {
+    font-size: 70px;
+    color: #FF6682;
+}
+
+.intro .info i.fa-mobile {
+    font-size: 100px;
+    padding-left: 5px;
+    color: #aecbf8;
+}
+
+.intro .info i.fa-paper-plane {
+    font-size: 50px;
+    color: #82ECB7;
+}
+/* end intro */
+/* start signup form */
+.signup-form {
+    border: 1px solid #DADADA;
+    border-radius: 8px;
+    padding: 30px 3%;
+}
+
+.signup-form .title {
+    font-weight: bold;
+    font-size: 25px;
+    margin-bottom: 30px;
+}
+
+.signup-form .signup-input input {
+    height: 40px;
+}
+
+.signup-form .validation {
+    color: #919191;
+    padding: 10px 0;
+}
+
+.signup-form .signup,
+.signup-form .google-login {
+    height: 40px;
+    font-size: 20px;
+}
+
+.signup-form .signup {
+    height: 40px;
+    font-size: 20px;
+    background-color: #1eabf9;
+}
+
+.signup-form .signup:hover {
+    background-color: #126795;
+}
+
+.signup-form .or {
+    color: #919191;
+    padding: 15px 0;
+}
+
+.signup-form .or:before,
+.signup-form .or:after {
+    content: "";
+    width: 40%;
+    display: inline-block;
+    border-top: 1px solid #919191;
+    margin-bottom: 5px;
+}
+
+.signup-form .or:before {
+    margin-right: 20px;
+}
+
+.signup-form .or:after {
+    margin-left: 20px;
+}
+
+.signup-form .google-login img {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 4px;
+    margin-right: 10px;
+}
+
+.signup-form .signin {
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+.signup-form .backend-error {
+    margin-top: 10px;
+    margin-bottom: 0;
+    height: 30px;
+    line-height: 30%;
+}
+/* end signup form */
+/* start login form */
+.intro .login-image {
+    margin: 50px 80px 0 0;
+    width: 400px;
+    height: 250px;
+}
+/* end login form */
+
+/* End sign up */
