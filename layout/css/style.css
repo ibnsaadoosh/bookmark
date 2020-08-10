@@ -11,6 +11,58 @@ body {
 h1,h2,h3,h4,h5,.lead {font-family: 'Open Sans', sans-serif;}
 
 /* End main rules */
+
+/* Start navbar */
+
+.navbar {
+    min-height: 70px;
+}
+
+.navbar-default {
+    background-color: #FFF;
+}
+
+.navbar-nav > li > a {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-size: 17px;
+}
+
+.navbar-brand {
+    padding: 24px 15px;
+    padding-right: 40px;
+    padding-left: 5px;
+    font-size: 24px;
+}
+
+.navbar-default .navbar-nav > .active > a {
+    color: #555;
+    font-weight: bold;
+    border-bottom: 2px solid;
+    background-color: #FFF;
+}
+
+.navbar-default .navbar-nav > .active > a:hover {
+    background-color: #FFF;
+    color: rgb(0, 122, 115);
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+    color: rgb(0, 122, 115);
+}
+
+.profile_image {
+    width: 30px;
+    height: 30px;
+}
+
+.navbar-nav > li > a.image-link{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* end navbar */
+
 /* Start sign up */
 
 /* start intro */

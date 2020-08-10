@@ -31,6 +31,7 @@ $user->set(null, null, null, $userData['givenName'], $userData['familyName'], $u
 $register = new RegisterController();
 $registerRes = $register->registerWithGoogle($user);
 
+$_SESSION['google'] = true;
 $_SESSION['user_data']['id'] = "google";
 $_SESSION['user_data']['firstName'] = $userData['givenName'];
 $_SESSION['user_data']['lastName'] = $userData['familyName'];
