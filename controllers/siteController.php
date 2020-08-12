@@ -1,7 +1,7 @@
 <?php
 
 include "validation/Validator.php";
-include "models/User.php";
+require_once "models/Site.php";
 
 class SiteController
 {
@@ -71,7 +71,7 @@ class SiteController
         return Site::delete('id', $id);
     }
 
-    public function get($select, $where, $whereValue)
+    public function get($select, $where = '', $whereValue = '')
     {
         return Site::get($select, $where, $whereValue);
     }

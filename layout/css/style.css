@@ -5,7 +5,7 @@
 }
 
 body {
-    padding-top: 70px;
+    padding-top: 150px;
 }
 
 h1,h2,h3,h4,h5,.lead {font-family: 'Open Sans', sans-serif;}
@@ -184,3 +184,29 @@ h1,h2,h3,h4,h5,.lead {font-family: 'Open Sans', sans-serif;}
 /* end login form */
 
 /* End sign up */
+
+/* Start my-links */
+
+.my-links .link {
+    border: 2px solid #DDD;
+    border-radius: 10px;
+    padding: 50px 15px;
+    margin-bottom: 30px;
+}
+
+.my-links .link:hover {
+    -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+    -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
+    box-shadow:         3px 3px 5px 6px #ccc;
+}
+
+.my-links .link .icon i {
+    font-size: 200px;
+}
+
+.my-links .link .title {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+/* End my-links */

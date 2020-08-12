@@ -1,6 +1,7 @@
 <?php
 
-include "validation/Validator.php";
+require_once "validation/Validator.php";
+require_once "models/Folder.php";
 
 class FolderController
 {

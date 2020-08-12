@@ -18,14 +18,14 @@ if (filter_var($_SESSION['user_data']['image'], FILTER_VALIDATE_URL)) {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Bookmark saver</a>
+            <a class="navbar-brand" href="index.php">Bookmark saver</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">My links</a></li>
-                <li><a href="#">My folders</a></li>
-                <li><a href="#">Main directory</a></li>
-                <li><a href="#">Add manually</a></li>
+                <li class="<?php echo $pageName == 'All links' ? 'active' : '';  ?>"><a href="index.php">My links</a></li>
+                <li class="<?php echo $pageName == 'All folders' ? 'active' : '';  ?>"><a href="folders.php">My folders</a></li>
+                <li class="<?php echo $pageName == 'Main directory' ? 'active' : '';  ?>"><a href="mainDirectory.php">Main directory</a></li>
+                <li class="<?php echo $pageName == 'Add manually' ? 'active' : '';  ?>"><a href="addManually.php">Add manually</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">

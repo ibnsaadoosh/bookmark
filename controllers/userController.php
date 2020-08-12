@@ -63,4 +63,9 @@ class UserController
 
         return User::update($updatedElements, 'id', $id);
     }
+
+    public function get($select, $from = '', $where = '')
+    {
+        return User::get($select, $from, $where);
+    }
 }

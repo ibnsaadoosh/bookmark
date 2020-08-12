@@ -1,14 +1,43 @@
 <?php
 $header = true;
-$pageName = "Main";
+$pageName = "All links";
 include "init.php";
 
 if (!isset($_SESSION['user_data'])) {
     header("Location: login.php");
+    die();
 }
 
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
+require_once "controllers/SiteController.php";
 
+$siteController = new SiteController();
+
+$sites = $siteController->get("*", 'user_id', $_SESSION['user_data']['id'])->fetchAll();
+
+?>
+
+<div class="my-links container">
+    <?php
+    if (count($sites) > 0) {
+        foreach ($sites as $site) {
+            echo '
+            <div class="col-md-4 col-xs-12">
+                <div class="link">
+                    <div class="icon text-center">
+                        <i class="fa fa-link fa-5x"></i>
+                    </div>
+                    <h4 class="title">' . $site['title'] . '</h4>
+                    <p class="comment lead">Comments: ' . $site['comment_section'] . '</p>
+                    <a href="' . $site['link'] . '" class="url">' . $site['link'] . '</a>
+                </div>
+            </div>
+            ';
+        }
+    } else {
+        echo "<p class='text-center lead'>You have no links</p>";
+    }
+    ?>
+</div>
+
+<?php
 include_once "includes/footerIncludes.php";
