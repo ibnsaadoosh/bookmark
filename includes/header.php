@@ -29,8 +29,8 @@ if (filter_var($_SESSION['user_data']['image'], FILTER_VALIDATE_URL)) {
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a class="image-link" href="#">
+                <li class="<?php echo $pageName == 'Edit profile' ? 'active' : '';  ?>">
+                    <a class="image-link" href="editProfile.php">
                         <img class="profile_image img-circle" src="<?php echo $image; ?>" alt="Edit profile" title="Edit profile">
                     </a>
                 </li>

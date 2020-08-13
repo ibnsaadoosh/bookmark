@@ -12,26 +12,33 @@ if (!isset($_SESSION['user_data'])) {
     die();
 }
 
+$errors = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['add-link'])) {
         $site = new Site();
         $site->set(null, $_POST['title'], $_POST['link'], $_POST['comments'], $_POST['parent'], $_SESSION['user_data']['id']);
 
         $siteController = new SiteController();
-        if ($siteController->add($site) === true) {
+        $siteRes = $siteController->add($site);
+        if ($siteRes === true) {
             echo "<script>alert('Link added successfully!')</script>";
             header("Location: index.php");
             die();
+        } else {
+            $errors = $siteRes;
         }
     } elseif (isset($_POST['add-folder'])) {
         $folder = new folder();
         $folder->set(null, $_POST['title'], $_POST['comments'], $_POST['parent'], $_SESSION['user_data']['id']);
 
         $folderController = new FolderController();
-        if ($folderController->add($folder) === true) {
+        $folderRes = $folderController->add($folder);
+        if ($folderRes === true) {
             echo "<script>alert('Folder added successfully!')</script>";
             header("Location: folders.php");
             die();
+        } else {
+            $errors = $folderRes;
         }
     }
 } else {
@@ -44,6 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <div class="add-link container">
     <div class="row">
         <div class="col-md-8 col-xs-12 col-md-offset-2">
+            <?php
+            if (count($errors) != 0) {
+                foreach ($errors as $el => $msg) {
+                    echo '<div class="alert alert-danger backend-error">' . $msg[0] . '</div>';
+                }
+            }
+            ?>
             <h2 class="text-center">Add link</h2> <br />
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                 <div class="form-group">
