@@ -64,8 +64,8 @@ class FolderController
         return Folder::delete('id', $id);
     }
 
-    public function get($select, $where, $whereValue)
+    public function get($select, $where = [], $whereValue = [], $andOr = '')
     {
-        return Folder::get($select, $where, $whereValue);
+        return Folder::get($select, $where, $whereValue, $andOr);
     }
 }

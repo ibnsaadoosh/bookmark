@@ -1,6 +1,6 @@
 <?php
 
-include "validation/Validator.php";
+require_once "validation/Validator.php";
 require_once "models/Site.php";
 
 class SiteController

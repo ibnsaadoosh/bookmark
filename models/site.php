@@ -46,7 +46,11 @@ class Site
             $stmt = $con->prepare($query);
             $stmt->execute();
         } else {
-            $query = "SELECT $select FROM sites WHERE $where = ?";
+            if ($whereValue == null) {
+                $query = "SELECT $select FROM sites WHERE $where IS ?";
+            } else {
+                $query = "SELECT $select FROM sites WHERE $where = ?";
+            }
             $stmt = $con->prepare($query);
             $stmt->execute(array($whereValue));
         }

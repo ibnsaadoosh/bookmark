@@ -35,17 +35,28 @@ class Folder
         );
     }
 
-    public static function get($select, $where = '', $whereValue = '')
+    public static function get($select, $where = [], $whereValue = [], $andOr = '')
     {
         $con = Database::connect();
-        if (empty($where)) {
+        if (count($where) < 1) {
             $query = "SELECT $select FROM folders";
             $stmt = $con->prepare($query);
             $stmt->execute();
         } else {
-            $query = "SELECT $select FROM folders WHERE $where = ?";
+            $afterWhere = "";
+            foreach ($where as $key => $oneWhere) {
+                if ($whereValue[$key] == null) {
+                    $afterWhere .= " $oneWhere IS ? $andOr";
+                } else {
+                    $afterWhere .= " $oneWhere = ? $andOr";
+                }
+            }
+            if (!empty($andOr)) {
+                $afterWhere = substr($afterWhere, 0, strlen($afterWhere) - 3);
+            }
+            $query = "SELECT $select FROM folders WHERE$afterWhere";
             $stmt = $con->prepare($query);
-            $stmt->execute(array($whereValue));
+            $stmt->execute($whereValue);
         }
 
         return $stmt;
