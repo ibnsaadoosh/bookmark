@@ -11,6 +11,7 @@ if (!isset($_SESSION['user_data'])) {
 }
 
 $folders = [];
+$parentFolder = '';
 $sites = [];
 
 if (isset($_GET['parent'])) {
@@ -22,6 +23,7 @@ if (isset($_GET['parent'])) {
     } else {
         $folderController = new FolderController();
         $folders = $folderController->get("*", ["user_id", "parent"], [$_SESSION['user_data']['id'], intval($_GET['parent'])], "AND")->fetchAll();
+        $parentFolder = $folderController->get("title", ["id"], [intval($_GET['parent'])])->fetch();
 
         $siteController = new SiteController();
         $sites = $siteController->get("*", "parent", intval($_GET['parent']))->fetchAll();
@@ -34,6 +36,7 @@ if (isset($_GET['parent'])) {
 ?>
 
 <div class="my-links container">
+    <?php echo empty($parentFolder['title']) ? "" : "<h2>Parent: " . $parentFolder['title'] . "<h2><hr>"; ?>
     <div class="row">
         <?php
         if (count($folders) > 0) {
