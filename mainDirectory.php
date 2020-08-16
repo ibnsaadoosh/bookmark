@@ -4,6 +4,7 @@ $pageName = "Main directory";
 include "init.php";
 require_once "controllers/FolderController.php";
 require_once "controllers/SiteController.php";
+require_once "includes/functions.php";
 
 if (!isset($_SESSION['user_data'])) {
     header("Location: login.php");
@@ -13,6 +14,7 @@ if (!isset($_SESSION['user_data'])) {
 $folders = [];
 $parentFolder = '';
 $sites = [];
+$all = [];
 
 if (isset($_GET['parent'])) {
 
@@ -27,6 +29,8 @@ if (isset($_GET['parent'])) {
 
         $siteController = new SiteController();
         $sites = $siteController->get("*", "parent", intval($_GET['parent']))->fetchAll();
+
+        $all = array_merge($folders, $sites);
     }
 } else {
     $folderController = new FolderController();
@@ -34,6 +38,12 @@ if (isset($_GET['parent'])) {
 
     $siteController = new SiteController();
     $sites = $siteController->get("*", "parent", NULL)->fetchAll();
+
+    $all = array_merge($folders, $sites);
+}
+
+if (count($all) > 0) {
+    usort($all, 'date_compare');
 }
 
 ?>
@@ -43,40 +53,28 @@ if (isset($_GET['parent'])) {
     <hr>
     <div class="row">
         <?php
-        if (count($folders) > 0) {
-            foreach ($folders as $folder) {
-                echo '
-                <a href="mainDirectory.php?parent=' . $folder['id'] . '">
-                    <div class="col-md-4 col-xs-12">
-                        <div class="link">
-                            <div class="icon text-center">
-                                <i class="fa fa-folder-open fa-5x"></i>
-                            </div>
-                            <h4 class="title">' . $folder['title'] . '</h4>
-                            <p class="comment lead">Comments: ' . $folder['comment_section'] . '</p>
-                        </div>
-                    </div>
-                </a>
-                ';
-            }
-        }
-        if (count($sites) > 0) {
-            foreach ($sites as $site) {
+        if (count($all) > 0) {
+            foreach ($all as $item) {
+                $icon = isset($item['link']) ? 'link' : 'folder-open';
+                $link = isset($item['link']) ? '<a href="' . $item['link'] . '" class="url">' . $item['link'] . '</a>' : '';
+                $anchorOpenning = isset($item['link']) ? '' : '<a href="mainDirectory.php?parent=' . $item['id'] . '">';
+                $anchorClosing = isset($item['link']) ? '' : '</a>';
+                echo $anchorOpenning;
                 echo '
                 <div class="col-md-4 col-xs-12">
                     <div class="link">
                         <div class="icon text-center">
-                            <i class="fa fa-link fa-5x"></i>
+                            <i class="fa fa-' . $icon . ' fa-5x"></i>
                         </div>
-                        <h4 class="title">' . $site['title'] . '</h4>
-                        <p class="comment lead">Comments: ' . $site['comment_section'] . '</p>
-                        <a href="' . $site['link'] . '" class="url">' . $site['link'] . '</a>
+                        <h4 class="title">' . $item['title'] . '</h4>
+                        <p class="comment lead">Comments: ' . $item['comment_section'] . '</p>
+                        ' . $link . '
                     </div>
                 </div>
                 ';
+                echo $anchorClosing;
             }
-        }
-        if (count($sites) == 0 && count($folders) == 0) {
+        } else {
             echo "<p class='text-center lead'>No items found</p>";
         }
         ?>
