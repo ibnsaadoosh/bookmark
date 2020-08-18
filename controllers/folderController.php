@@ -59,9 +59,9 @@ class FolderController
         return Folder::update($updatedElements, 'id', $id);
     }
 
-    public function delete($id)
+    public function delete($where = [], $whereValue = [], $andOr = '')
     {
-        return Folder::delete('id', $id);
+        return Folder::delete($where, $whereValue, $andOr);
     }
 
     public function get($select, $where = [], $whereValue = [], $andOr = '')

@@ -37,7 +37,7 @@ if (isset($_GET['parent'])) {
     $folders = $folderController->get("*", ["user_id", "parent"], [$_SESSION['user_data']['id'], NULL], "AND")->fetchAll();
 
     $siteController = new SiteController();
-    $sites = $siteController->get("*", "parent", NULL)->fetchAll();
+    $sites = $siteController->get("*", ["user_id", "parent"], [$_SESSION['user_data']['id'], NULL], "AND")->fetchAll();
 
     $all = array_merge($folders, $sites);
 }
@@ -57,22 +57,26 @@ if (count($all) > 0) {
             foreach ($all as $item) {
                 $icon = isset($item['link']) ? 'link' : 'folder-open';
                 $link = isset($item['link']) ? '<a href="' . $item['link'] . '" class="url">' . $item['link'] . '</a>' : '';
-                $anchorOpenning = isset($item['link']) ? '' : '<a href="mainDirectory.php?parent=' . $item['id'] . '">';
+                $anchorOpenning = isset($item['link']) ? '' : '<a href="folders.php?parent=' . $item['id'] . '">';
                 $anchorClosing = isset($item['link']) ? '' : '</a>';
-                echo $anchorOpenning;
+                $deletePage = isset($item['link']) ? 'deleteSite' : 'deleteFolder';
                 echo '
                 <div class="col-md-4 col-xs-12">
                     <div class="link">
+                        <a href="' . $deletePage . '.php?id=' . $item['id'] . '">
+                            <i class="fa fa-times fa-lg delete" title="Delete"></i>
+                        </a>
                         <div class="icon text-center">
                             <i class="fa fa-' . $icon . ' fa-5x"></i>
                         </div>
-                        <h4 class="title">' . $item['title'] . '</h4>
+                        ' . $anchorOpenning . '
+                            <h4 class="title">' . $item['title'] . '</h4>
+                        ' . $anchorClosing . '
                         <p class="comment lead">Comments: ' . $item['comment_section'] . '</p>
                         ' . $link . '
                     </div>
                 </div>
                 ';
-                echo $anchorClosing;
             }
         } else {
             echo "<p class='text-center lead'>No items found</p>";

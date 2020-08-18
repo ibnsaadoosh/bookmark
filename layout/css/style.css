@@ -10,6 +10,13 @@ body {
 
 h1,h2,h3,h4,h5,.lead {font-family: 'Open Sans', sans-serif;}
 
+i.delete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: rgb(255, 81, 81);
+    cursor: pointer;
+}
 /* End main rules */
 
 /* Start navbar */
@@ -192,6 +199,7 @@ h1,h2,h3,h4,h5,.lead {font-family: 'Open Sans', sans-serif;}
     border-radius: 10px;
     padding: 50px 15px;
     margin-bottom: 30px;
+    position: relative;
 }
 
 .my-links .link:hover {
@@ -199,6 +207,7 @@ h1,h2,h3,h4,h5,.lead {font-family: 'Open Sans', sans-serif;}
     -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
     box-shadow:         3px 3px 5px 6px #ccc;
 }
+
 
 .my-links .link .icon i {
     font-size: 200px;

@@ -66,13 +66,13 @@ class SiteController
         return Site::update($updatedElements, 'id', $id);
     }
 
-    public function delete($id)
+    public function delete($where = [], $whereValue = [], $andOr = '')
     {
-        return Site::delete('id', $id);
+        return Site::delete($where, $whereValue, $andOr);
     }
 
-    public function get($select, $where = '', $whereValue = '')
+    public function get($select, $where = [], $whereValue = [], $andOr = '')
     {
-        return Site::get($select, $where, $whereValue);
+        return Site::get($select, $where, $whereValue, $andOr);
     }
 }

@@ -77,13 +77,24 @@ class Folder
         return false;
     }
 
-    public static function delete($where, $whereValue)
+    public static function delete($where = [], $whereValue = [], $andOr = '')
     {
+        $afterWhere = "";
+        foreach ($where as $key => $oneWhere) {
+            if ($whereValue[$key] == null) {
+                $afterWhere .= " $oneWhere IS ? $andOr";
+            } else {
+                $afterWhere .= " $oneWhere = ? $andOr";
+            }
+        }
+        if (!empty($andOr)) {
+            $afterWhere = substr($afterWhere, 0, strlen($afterWhere) - 3);
+        }
         $con = Database::connect();
-        $query = "DELETE FROM folders WHERE $where = ?";
+        $query = "DELETE FROM folders WHERE$afterWhere";
         $stmt = $con->prepare($query);
 
-        if ($stmt->execute(array($whereValue))) {
+        if ($stmt->execute($whereValue)) {
             return true;
         }
 

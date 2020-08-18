@@ -38,21 +38,28 @@ class Site
         );
     }
 
-    public static function get($select, $where = '', $whereValue = '')
+    public static function get($select, $where = [], $whereValue = [], $andOr = '')
     {
         $con = Database::connect();
-        if (empty($where)) {
+        if (count($where) < 1) {
             $query = "SELECT $select FROM sites";
             $stmt = $con->prepare($query);
             $stmt->execute();
         } else {
-            if ($whereValue == null) {
-                $query = "SELECT $select FROM sites WHERE $where IS ?";
-            } else {
-                $query = "SELECT $select FROM sites WHERE $where = ?";
+            $afterWhere = "";
+            foreach ($where as $key => $oneWhere) {
+                if ($whereValue[$key] == null) {
+                    $afterWhere .= " $oneWhere IS ? $andOr";
+                } else {
+                    $afterWhere .= " $oneWhere = ? $andOr";
+                }
             }
+            if (!empty($andOr)) {
+                $afterWhere = substr($afterWhere, 0, strlen($afterWhere) - 3);
+            }
+            $query = "SELECT $select FROM sites WHERE$afterWhere";
             $stmt = $con->prepare($query);
-            $stmt->execute(array($whereValue));
+            $stmt->execute($whereValue);
         }
 
         return $stmt;
@@ -73,13 +80,24 @@ class Site
         return false;
     }
 
-    public static function delete($where, $whereValue)
+    public static function delete($where = [], $whereValue = [], $andOr = '')
     {
+        $afterWhere = "";
+        foreach ($where as $key => $oneWhere) {
+            if ($whereValue[$key] == null) {
+                $afterWhere .= " $oneWhere IS ? $andOr";
+            } else {
+                $afterWhere .= " $oneWhere = ? $andOr";
+            }
+        }
+        if (!empty($andOr)) {
+            $afterWhere = substr($afterWhere, 0, strlen($afterWhere) - 3);
+        }
         $con = Database::connect();
-        $query = "DELETE FROM sites WHERE $where = ?";
+        $query = "DELETE FROM sites WHERE$afterWhere";
         $stmt = $con->prepare($query);
 
-        if ($stmt->execute(array($whereValue))) {
+        if ($stmt->execute($whereValue)) {
             return true;
         }
 

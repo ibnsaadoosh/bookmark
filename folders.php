@@ -28,7 +28,7 @@ if (isset($_GET['parent'])) {
         $parentFolder = $folderController->get("title", ["id"], [intval($_GET['parent'])])->fetch();
 
         $siteController = new SiteController();
-        $sites = $siteController->get("*", "parent", intval($_GET['parent']))->fetchAll();
+        $sites = $siteController->get("*", ["parent"], [intval($_GET['parent'])])->fetchAll();
 
         $all = array_merge($folders, $sites);
     }
@@ -55,20 +55,24 @@ if (count($all) > 0) {
                 $link = isset($item['link']) ? '<a href="' . $item['link'] . '" class="url">' . $item['link'] . '</a>' : '';
                 $anchorOpenning = isset($item['link']) ? '' : '<a href="folders.php?parent=' . $item['id'] . '">';
                 $anchorClosing = isset($item['link']) ? '' : '</a>';
-                echo $anchorOpenning;
+                $deletePage = isset($item['link']) ? 'deleteSite' : 'deleteFolder';
                 echo '
                 <div class="col-md-4 col-xs-12">
                     <div class="link">
+                        <a href="' . $deletePage . '.php?id=' . $item['id'] . '">
+                            <i class="fa fa-times fa-lg delete" title="Delete"></i>
+                        </a>
                         <div class="icon text-center">
                             <i class="fa fa-' . $icon . ' fa-5x"></i>
                         </div>
-                        <h4 class="title">' . $item['title'] . '</h4>
+                        ' . $anchorOpenning . '
+                            <h4 class="title">' . $item['title'] . '</h4>
+                        ' . $anchorClosing . '
                         <p class="comment lead">Comments: ' . $item['comment_section'] . '</p>
                         ' . $link . '
                     </div>
                 </div>
                 ';
-                echo $anchorClosing;
             }
         }
         if (count($sites) == 0 && count($folders) == 0) {

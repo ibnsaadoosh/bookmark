@@ -12,7 +12,7 @@ require_once "controllers/SiteController.php";
 
 $siteController = new SiteController();
 
-$sites = $siteController->get("*", 'user_id', $_SESSION['user_data']['id'])->fetchAll();
+$sites = $siteController->get("*", ['user_id'], [$_SESSION['user_data']['id']])->fetchAll();
 
 ?>
 
@@ -23,6 +23,9 @@ $sites = $siteController->get("*", 'user_id', $_SESSION['user_data']['id'])->fet
             echo '
             <div class="col-md-4 col-xs-12">
                 <div class="link">
+                    <a href="deleteSite.php?id=' . $site['id'] . '">
+                        <i class="fa fa-times fa-lg delete" title="Delete"></i>
+                    </a>
                     <div class="icon text-center">
                         <i class="fa fa-link fa-5x"></i>
                     </div>
