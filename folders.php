@@ -70,6 +70,7 @@ if (count($all) > 0) {
                         ' . $anchorClosing . '
                         <p class="comment lead">Comments: ' . $item['comment_section'] . '</p>
                         ' . $link . '
+                        <span class="date">' . $item['date'] . '</span>
                     </div>
                 </div>
                 ';

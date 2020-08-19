@@ -12,9 +12,23 @@ if (!isset($_SESSION['user_data'])) {
     die();
 }
 
+$linkTitle = '';
+$linkComments = '';
+$linkParent = '';
+$link = '';
+
+$folderTitle = '';
+$folderComments = '';
+$folderParent = '';
+
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['add-link'])) {
+        $linkTitle = $_POST['title'];
+        $linkComments = $_POST['comments'];
+        $linkParent = $_POST['parent'];
+        $link = $_POST['link'];
+
         $site = new Site();
         $site->set(null, $_POST['title'], $_POST['link'], $_POST['comments'], $_POST['parent'], $_SESSION['user_data']['id']);
 
@@ -28,6 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors = $siteRes;
         }
     } elseif (isset($_POST['add-folder'])) {
+        $folderTitle = $_POST['title'];
+        $folderComments = $_POST['comments'];
+        $folderParent = $_POST['parent'];
+
         $folder = new folder();
         $folder->set(null, $_POST['title'], $_POST['comments'], $_POST['parent'], $_SESSION['user_data']['id']);
 
@@ -41,10 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors = $folderRes;
         }
     }
-} else {
-    $folderController = new FolderController();
-    $folders = $folderController->get("id, title", "user_id", $_SESSION['user_data']['id'])->fetchAll();
 }
+
+$folderController = new FolderController();
+$folders = $folderController->get("id, title", ["user_id"], [$_SESSION['user_data']['id']])->fetchAll();
 
 ?>
 
@@ -62,18 +80,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                 <div class="form-group">
                     <label for="title">Title</label>
-                    <input type="text" name="title" class="form-control" id="title" placeholder="Enter title">
+                    <input type="text" name="title" class="form-control" id="title" placeholder="Enter title" value="<?php echo $linkTitle ?>">
                 </div> <br />
                 <div class="form-group">
                     <label for="comments">Comments</label>
-                    <textarea name="comments" rows="7" class="form-control" id="comments" placeholder="Enter your comments"></textarea>
+                    <textarea name="comments" rows="7" class="form-control" id="comments" placeholder="Enter your comments"><?php echo $linkComments ?></textarea>
                 </div> <br />
                 <select name="parent" class="form-control">
                     <?php
                     if (count($folders) > 0) {
                         echo "<option disabled>Choose folder</option>";
                         foreach ($folders as $folder) {
-                            echo "<option value='" . $folder['id'] . "'>" . $folder['title'] . "</option>";
+                            $selected = $folder['id'] == $linkParent ? "selected" : "";
+                            echo "<option value='" . $folder['id'] . "' " . $selected . ">" . $folder['title'] . "</option>";
                         }
                     } else {
                         echo "<option disabled>No folders to choose</option>";
@@ -82,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </select> <br />
                 <div class="form-group">
                     <label for="link">link</label>
-                    <input type="text" name="link" class="form-control" id="link" placeholder="Enter link">
+                    <input type="text" name="link" class="form-control" id="link" placeholder="Enter link" value="<?php echo $link ?>">
                 </div> <br />
                 <button type="submit" name="add-link" class="btn btn-success">Submit</button>
             </form>
@@ -97,18 +116,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                 <div class="form-group">
                     <label for="title">Title</label>
-                    <input type="text" name="title" class="form-control" id="title" placeholder="Enter title">
+                    <input type="text" name="title" class="form-control" id="title" placeholder="Enter title" value="<?php echo $folderTitle ?>">
                 </div> <br />
                 <div class="form-group">
                     <label for="comments">Comments</label>
-                    <textarea name="comments" rows="7" class="form-control" id="comments" placeholder="Enter your comments"></textarea>
+                    <textarea name="comments" rows="7" class="form-control" id="comments" placeholder="Enter your comments"><?php echo $folderComments ?></textarea>
                 </div> <br />
                 <select name="parent" class="form-control">
                     <?php
                     if (count($folders) > 0) {
                         echo "<option disabled>Choose folder</option>";
                         foreach ($folders as $folder) {
-                            echo "<option value='" . $folder['id'] . "'>" . $folder['title'] . "</option>";
+                            $selected = $folder['id'] == $folderParent ? "selected" : "";
+                            echo "<option value='" . $folder['id'] . "' " . $selected . ">" . $folder['title'] . "</option>";
                         }
                     } else {
                         echo "<option disabled>No folders to choose</option>";

@@ -32,6 +32,7 @@ $sites = $siteController->get("*", ['user_id'], [$_SESSION['user_data']['id']])-
                     <h4 class="title">' . $site['title'] . '</h4>
                     <p class="comment lead">Comments: ' . $site['comment_section'] . '</p>
                     <a href="' . $site['link'] . '" class="url">' . $site['link'] . '</a>
+                    <span class="date">' . $site['date'] . '</span>
                 </div>
             </div>
             ';
