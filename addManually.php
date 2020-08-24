@@ -90,8 +90,13 @@ $folders = $folderController->get("id, title", ["user_id"], [$_SESSION['user_dat
                     <?php
                     if (count($folders) > 0) {
                         echo "<option disabled>Choose folder</option>";
+                        if ($linkParent == null) {
+                            echo "<option value='null' selected>no parent</option>";
+                        } else {
+                            echo "<option value='null' selected>no parent</option>";
+                        }
                         foreach ($folders as $folder) {
-                            $selected = $folder['id'] == $linkParent ? "selected" : "";
+                            $selected = $folder['id'] == $linkParent && $linkParent != null ? "selected" : "";
                             echo "<option value='" . $folder['id'] . "' " . $selected . ">" . $folder['title'] . "</option>";
                         }
                     } else {
@@ -126,8 +131,13 @@ $folders = $folderController->get("id, title", ["user_id"], [$_SESSION['user_dat
                     <?php
                     if (count($folders) > 0) {
                         echo "<option disabled>Choose folder</option>";
+                        if ($folderParent == null) {
+                            echo "<option value='null' selected>no parent</option>";
+                        } else {
+                            echo "<option value='null' selected>no parent</option>";
+                        }
                         foreach ($folders as $folder) {
-                            $selected = $folder['id'] == $folderParent ? "selected" : "";
+                            $selected = $folder['id'] == $folderParent && $folderParent != null ? "selected" : "";
                             echo "<option value='" . $folder['id'] . "' " . $selected . ">" . $folder['title'] . "</option>";
                         }
                     } else {

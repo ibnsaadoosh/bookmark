@@ -66,7 +66,7 @@ class UserController
         if (isset($updatedElements['password'])) {
             $updatedElements['password'] = password_hash($updatedElements['password'], PASSWORD_DEFAULT);
         }
-        array_shift($updatedElements);
+        array_shift($updatedElements); // to delete id
 
         if (User::update($updatedElements, 'id', $id) === true) {
             // Updating the session

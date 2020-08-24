@@ -28,7 +28,7 @@ if (isset($_GET['parent'])) {
         $parentFolder = $folderController->get("title", ["id"], [intval($_GET['parent'])])->fetch();
 
         $siteController = new SiteController();
-        $sites = $siteController->get("*", "parent", intval($_GET['parent']))->fetchAll();
+        $sites = $siteController->get("*", ["parent"], [intval($_GET['parent'])])->fetchAll();
 
         $all = array_merge($folders, $sites);
     }
@@ -57,7 +57,7 @@ if (count($all) > 0) {
             foreach ($all as $item) {
                 $icon = isset($item['link']) ? 'link' : 'folder-open';
                 $link = isset($item['link']) ? '<a href="' . $item['link'] . '" class="url">' . $item['link'] . '</a>' : '';
-                $anchorOpenning = isset($item['link']) ? '' : '<a href="folders.php?parent=' . $item['id'] . '">';
+                $anchorOpenning = isset($item['link']) ? '' : '<a href="mainDirectory.php?parent=' . $item['id'] . '">';
                 $anchorClosing = isset($item['link']) ? '' : '</a>';
                 $deletePage = isset($item['link']) ? 'deleteSite' : 'deleteFolder';
                 echo '

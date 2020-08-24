@@ -29,8 +29,13 @@ $sites = $siteController->get("*", ['user_id'], [$_SESSION['user_data']['id']])-
                     <div class="icon text-center">
                         <i class="fa fa-link fa-5x"></i>
                     </div>
-                    <h4 class="title">' . $site['title'] . '</h4>
-                    <p class="comment lead">Comments: ' . $site['comment_section'] . '</p>
+                    <h4 class="title">
+                        ' . $site['title'] . '
+                    </h4>
+                    <a href="updateSite.php?id=' . $site['id'] . '">
+                        <i class="fa fa-pencil fa-lg update" title="Delete"></i>
+                    </a> 
+                    <p class="comment lead"><span class="custom">Comments:</span> ' . $site['comment_section'] . '</p>
                     <a href="' . $site['link'] . '" class="url">' . $site['link'] . '</a>
                     <span class="date">' . $site['date'] . '</span>
                 </div>

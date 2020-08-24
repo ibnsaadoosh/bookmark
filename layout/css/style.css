@@ -24,6 +24,15 @@ i.delete {
     right: 10px;
     color: #9e9e9e;
 }
+
+.comment {
+    font-size: 15px;
+}
+
+.comment .custom {
+    font-weight: bold;
+    font-size: 20px;
+}
 /* End main rules */
 
 /* Start navbar */
@@ -223,6 +232,14 @@ i.delete {
 .my-links .link .title {
     font-weight: bold;
     font-size: 30px;
+    display: inline-block;
+}
+
+.my-links .link i.update {
+    color: rgb(0, 99, 90);
+    cursor: pointer;
+    font-size: 25px;
+    margin-left: 5px;
 }
 
 /* End my-links */
