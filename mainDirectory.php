@@ -60,6 +60,7 @@ if (count($all) > 0) {
                 $anchorOpenning = isset($item['link']) ? '' : '<a href="mainDirectory.php?parent=' . $item['id'] . '">';
                 $anchorClosing = isset($item['link']) ? '' : '</a>';
                 $deletePage = isset($item['link']) ? 'deleteSite' : 'deleteFolder';
+                $edit = isset($item['link']) ? "updateSite" : "updateFolder";
                 echo '
                 <div class="col-md-4 col-xs-12">
                     <div class="link">
@@ -71,6 +72,9 @@ if (count($all) > 0) {
                         </div>
                         ' . $anchorOpenning . '
                             <h4 class="title">' . $item['title'] . '</h4>
+                            <a href="' . $edit . '.php?id=' . $item['id'] . '">
+                                <i class="fa fa-pencil fa-lg update" title="Delete"></i>
+                            </a>
                         ' . $anchorClosing . '
                         <p class="comment lead">Comments: ' . $item['comment_section'] . '</p>
                         ' . $link . '

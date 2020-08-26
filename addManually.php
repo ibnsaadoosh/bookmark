@@ -26,11 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['add-link'])) {
         $linkTitle = $_POST['title'];
         $linkComments = $_POST['comments'];
-        $linkParent = $_POST['parent'];
+        $linkParent = $_POST['parent'] == 'null' ? NULL : $_POST['parent'];
         $link = $_POST['link'];
 
         $site = new Site();
-        $site->set(null, $_POST['title'], $_POST['link'], $_POST['comments'], $_POST['parent'], $_SESSION['user_data']['id']);
+        $site->set(null, $_POST['title'], $_POST['link'], $_POST['comments'], $linkParent, $_SESSION['user_data']['id']);
 
         $siteController = new SiteController();
         $siteRes = $siteController->add($site);
@@ -44,10 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } elseif (isset($_POST['add-folder'])) {
         $folderTitle = $_POST['title'];
         $folderComments = $_POST['comments'];
-        $folderParent = $_POST['parent'];
+        $folderParent = $_POST['parent'] == 'null' ? NULL : $_POST['parent'];
 
         $folder = new folder();
-        $folder->set(null, $_POST['title'], $_POST['comments'], $_POST['parent'], $_SESSION['user_data']['id']);
+        $folder->set(null, $_POST['title'], $_POST['comments'], $folderParent, $_SESSION['user_data']['id']);
 
         $folderController = new FolderController();
         $folderRes = $folderController->add($folder);

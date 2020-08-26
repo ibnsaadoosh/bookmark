@@ -11,7 +11,7 @@ class Site
     private $parent;
     private $user_id;
 
-    public function set($id = null, $title, $link, $comment_section, $parent = 0, $user_id)
+    public function set($id = null, $title, $link, $comment_section, $parent = NULL, $user_id)
     {
         $this->id = $id;
         $this->title = $title;
@@ -109,10 +109,15 @@ class Site
         $updateStr = '';
 
         foreach ($assocArr as $key => $val) {
-            $updateStr .= $key . " = '" . $val . "', ";
+            if ($val == 'null')
+                $updateStr .= $key . " = " . $val . ", ";
+            else
+                $updateStr .= $key . " = '" . $val . "', ";
         }
 
         $updateStr = substr($updateStr, 0, strlen($updateStr) - 2);
+
+        echo 'Update string: ' . $updateStr;
 
         $con = Database::connect();
         $query = "UPDATE sites SET $updateStr WHERE $where = ?";

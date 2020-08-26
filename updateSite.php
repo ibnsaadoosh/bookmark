@@ -51,12 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $updated['id'] = $id;
     if (!empty($_POST['title'])) $updated['title'] = $_POST['title'];
     if (!empty($_POST['comments'])) $updated['comment_section'] = $_POST['comments'];
-    if (!empty($_POST['parent'])) $updated['parent'] = $_POST['parent'];
+    if (!empty($_POST['parent']) || $_POST['parent'] == null) $updated['parent'] = $_POST['parent'];
     if (!empty($_POST['link'])) $updated['link'] = $_POST['link'];
 
-    // echo "<pre>";
-    // print_r($updated);
-    // echo "</pre>";
+    echo "<pre>";
+    print_r($updated);
+    echo "</pre>";
 
     if (count($updated) > 1) {
         $siteController = new SiteController();
@@ -70,6 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors = $res;
             header("Location: updateSite.php?id=" . $id);
         }
+    } else {
+        header("Location: index.php");
+        exit();
     }
 }
 
@@ -88,7 +91,7 @@ $folders = $folderController->get("id, title", ["user_id"], [$_SESSION['user_dat
                 }
             }
             ?>
-            <h2 class="text-center">Add link</h2> <br />
+            <h2 class="text-center">Update link</h2> <br />
             <form action="?id=<?php echo $id; ?>" method="POST">
                 <div class="form-group">
                     <label for="title">Title</label>

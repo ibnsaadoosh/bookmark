@@ -10,7 +10,7 @@ class Folder
     private $parent;
     private $user_id;
 
-    public function set($id = null, $title, $comment_section, $parent = 0, $user_id)
+    public function set($id = null, $title, $comment_section, $parent = NULL, $user_id)
     {
         $this->id = $id;
         $this->title = $title;
